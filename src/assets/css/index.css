@@ -1,0 +1,14 @@
+.template-areas {
+    display: flex;
+}
+
+.bg-cms {
+    background-color: #F4F5F7;
+}
+
+.cms-logo {
+    padding: 20px;
+    text-align: center;
+    font-size: 24;
+    font-weight: bold;
+  }

@@ -1,0 +1,64 @@
+.topnav {
+    background-color: #0D28A6 !important;
+    height: 100;
+    padding: 13px;
+    margin-top: -10px;
+    padding-right: 0;
+    margin-left: -10px;
+    margin-right: -10px;
+    text-align: center;
+    font-style: Georgia;
+    font-size: 20px;
+}
+
+.header-nav {
+    background: #ffffff;
+    width: 100%;
+    display: flex;
+    padding-left: 8px;
+    padding-right: 2rem;
+    justify-content: space-between;
+    height: 4rem;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    border-right: 1px solid #eaeaea;
+    align-items: center;
+  }
+
+
+    .sidenav---sidenav---_2tBP {
+    background: #0D28A6 !important;
+    }
+
+    .font-icon {
+    color: var(--neutral-01, #FFF);
+    text-align: center;
+    font-family: Arial;
+    font-size: 10px;
+    font-style: normal;
+    }
+
+    .logo {
+    width: 34px;
+    height: 34px;
+    background-color: #cfd4ed;
+    text-align: center;
+    flex-shrink: 0;
+    margin: 15px;
+    }
+
+.header-div {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+.ml-2 {
+    margin-left: 0.5rem;
+}
+.ml-auto {
+    margin-left: auto;
+  }
+
+.sidebar-nav {
+  height: 100vh;
+}
