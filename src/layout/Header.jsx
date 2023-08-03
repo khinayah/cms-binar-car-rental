@@ -14,7 +14,6 @@ const Header = () => {
             <Button className='btn-collapse' size='sm' outline>
                 <i className='fa fa-bars'></i>
             </Button>
-            {/* <Uncontrolled.Dropdown className='d-flex align-items-center'> */}
                 <Dropdown>
                 <Dropdown.Toggle>
                     
@@ -27,7 +26,6 @@ const Header = () => {
                     }}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
                 </Dropdown>
-            {/* </Uncontrolled.Dropdown> */}
         </div>
     )
 }

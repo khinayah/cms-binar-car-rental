@@ -42,9 +42,8 @@ const SideBar = () => {
 // };
 
         <Sidebar backgroundColor='#0D28A6' className='sidebar-nav'>
-            <div className='cms-logo mx-4 my-2'>
-                CMS
-            </div>
+            <div className='logo mx-4 my-2'/>
+                
             <Menu>
                 {/* <SubMenu label="Dashboard"> */}
                     <MenuItem > <img src={iconhome}  style={{width:"20px"}}/> </MenuItem>
