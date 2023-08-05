@@ -10,3 +10,70 @@
     font-size: 14px !important;
     line-height: 1 !important;
 }
+
+.card-list-car {
+    border-radius: 8px !important;
+    border: none !important;
+    background-color: #fff;
+    width: 100%;
+    max-width: 360px;
+    max-height: 482px;
+    padding: 24px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+}
+
+.img-car {
+    width: 100%;
+    object-fit: cover;
+    height: 222px;
+    max-height: 222px;
+}
+
+.btn-delete-car {
+    background-color: #fff !important;
+    border: 1px solid #FA2C5A !important;
+    border-radius: 2px !important;
+    padding: 8px 12px !important;
+    height: 48px;
+    width: 100%;
+    color: #FA2C5A !important;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+.btn-edit-car {
+    background-color: #5CB85F !important;
+    border: 1px solid transparent !important;
+    border-radius: 2px !important;
+    padding: 8px 12px !important;
+    height: 48px;
+    width: 100%;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+.txt-price-car {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+}
+.txt-name-car {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+}

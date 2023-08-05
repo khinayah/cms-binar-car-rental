@@ -6,9 +6,12 @@ import '../assets/css/layout.css'
 import {
   Row, Col,
   Button,
+  Card,
 } from 'react-bootstrap';
 import "../assets/css/dashboard.css"
 import axios from 'axios';
+import ModalDelete from '../components/ModalDelete';
+import Toast from 'react-bootstrap/Toast';
 
 
 
@@ -23,10 +26,23 @@ const AdminDashboard = () => {
   const [data, setData] = useState([])
   const [err, setErr] = useState("")
   const [formData, setFormData] = useState(initalForm)
+  const [modalId, setModalId] = useState(null)
+  const [isShown, setIsShown] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+
+
+
 
   useEffect(() => {
     getData();
   }, [])
+
+  const formatPrice = (number)=>{
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR"
+    }).format(number);
+  }
 
   const getData = () => {
     const { name, category, status, minPrice, maxPrice } = formData;
@@ -43,10 +59,58 @@ const AdminDashboard = () => {
     // }, 4000);
   };
 
+  const handleModal = (id) => {
+    console.log('klik')
+    setIsShown(true)
+    setModalId(id)
+  }
+
+  const handleClose = (id) => {
+    setIsShown(false)
+    setModalId(null)
+  }
+
+  const handleDelete = (id) => {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        access_token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGJjci5pbyIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTY4ODk5Mzk3M30.nKJbi0qYrrXvWgXrjB4TD8RcfcTLYHueOzmZN2bE9t4",
+      },      
+    }
+
+    axios.delete(`https://api-car-rental.binaracademy.org/admin/car/${id}`, config)
+    // {headers}
+    .then(res => {
+      setIsShown(false)
+      setModalId(null)
+
+      getData()
+      setShowToast(true)
+      setTimeout(() =>{
+        setShowToast(false)
+      }, 3000)
+    })
+    .catch(err => console.log(err))
+    // console.log('tes')
+  }
+
   return (
     <div>
-        {/* <Header/> */}
-        {/* <Sidebar/> */}
+      {
+        showToast &&  <Toast autohide>
+        <Toast.Body className={variant === 'Dark' && 'text-white'}>Data Berhasil Dihapus</Toast.Body>
+        </Toast>
+      }
+        <div>
+          {isShown && modalId !== null && (
+            <ModalDelete 
+            show={isShown}
+            modalId={modalId} 
+            handleClose={handleClose}
+            handleDelete={handleDelete} />
+          )}
+      </div>
         <Row className='mb-4'>
           <Col className='d-flex align-items-center'>
             <h2 className='font-title-cms mb-0'>List Car</h2>
@@ -76,14 +140,14 @@ const AdminDashboard = () => {
           data.map((item, index) => {
             return (
               <Col key={index} md={4} className="pb-4">
-                <div className='card card-list-car'>
-                  <img className='img-car' alt={item.name} src={item.image}/>
+                <Card className='card card-list-car'>
+                  <Card.Img className='img-car' alt={item.name} src={item.image}/>
                   <div className='px-0 pb-0'>
                     <h2 className='txt-name-car' tag="h2">
                       {item.name}
                     </h2>
                     <h3 className="txt-price-car mb-3">
-                      {/* {formatNumber(item.price)} / hari */}
+                      {formatPrice(item.price)} / hari
                     </h3>
                     <p className='txt-more-info mb-3'>
                       <i className="fa fa-user-o pe-2" aria-hidden="true"></i> 6-8 people
@@ -93,7 +157,7 @@ const AdminDashboard = () => {
                     </p>
                     <Row className='px-1'>
                       <Col className="px-2">
-                        <Button className='btn-delete-car'>
+                        <Button className='btn-delete-car' onClick={() => handleModal(item.id)}>
                           <i className="fa fa-trash pe-2" aria-hidden="true"></i> Delete
                         </Button>
                       </Col>
@@ -104,7 +168,7 @@ const AdminDashboard = () => {
                       </Col>
                     </Row>
                   </div>
-                </div>
+                </Card>
               </Col>
             )
           })
