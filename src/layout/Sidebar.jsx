@@ -46,9 +46,13 @@ const SideBar = () => {
                 CMS
             </div>
             <Menu>
-                {/* <SubMenu label="Dashboard"> */}
-                    <MenuItem > <img src={iconhome}  style={{width:"20px"}}/> </MenuItem>
-                {/* </SubMenu> */}
+                
+                    <MenuItem > <img src={iconhome}  style={{width:"20px"}}/> 
+                    
+                    </MenuItem>
+                    <SubMenu label="Dashboard">
+
+                    </SubMenu>
                 {/* <SubMenu label="Cars"> */}
                     <MenuItem > <img src={iconcar} alt="" /></MenuItem>
                 {/* </SubMenu> */}
