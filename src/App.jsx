@@ -9,23 +9,21 @@ import {
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import AdminLogin from "./pages/AdminLogin";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/AdminListCar";
 import Layout from "./layout/Main";
-// import AdminAddCar from "./pages/AdminAddCar";
 import { AuthProvider } from "./routes";
-import FromCar from "./pages/FormCar";
+import AdminFormCar from "./pages/AdminFormCar";
 
 function App(props) {
   let element = useRoutes ([
     {path: "/", element: <AdminLogin/>},
-    {path: "/dashboard", element: <Layout/>},
-    {path: "/dashboard/add-car", element: <FromCar/>},
-    {path: "/dashboard/edit-car/:id", element: <FromCar/>},
+    {path: "/list-cars", element: <Layout/>},
+    {path: "/list-cars/add-car", element: <AdminFormCar/>},
+    {path: "/list-cars/edit-car/:id", element: <AdminFormCar/>},
 
   ])
 
   return element
-    // <AuthProvider {...props} />
   
 }
 

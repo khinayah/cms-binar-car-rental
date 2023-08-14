@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import Header from './Header';
 import SideBar from './Sidebar';
-import AdminDashboard from '../pages/AdminDashboard';
 import '../assets/css/index.css'
-import FormCar from '../pages/FormCar'
-import { AppPrivateRoute } from '../routes';
+import FormCar from '../pages/AdminFormCar'
+import AdminListCar from '../pages/AdminListCar';
 
 
 const Layout = () => {
     const [searchName, setSearchName] = useState('');
 
     const handleSearchNameChange = (searchValue) => {
-        console.log('Search value changed:', searchValue);
-        setSearchName(searchValue);
+        setSearchName(searchValue)
     }
 
       
@@ -25,11 +23,8 @@ const Layout = () => {
                 searchName={searchName} 
                 />
                 <div className='bg-cms p-4'>
-                    {/* <AppPrivateRoute> */}
-                    <AdminDashboard searchName={searchName} 
+                    <AdminListCar searchName={searchName} 
                     onSearchNameChange={handleSearchNameChange}/> 
-                    <FormCar/>          
-                    {/* </AppPrivateRoute> */}
         </div>
       </div>
     </div>
