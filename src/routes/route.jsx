@@ -1,5 +1,5 @@
-import AdminDashboard from "../pages/AdminDashboard"
-import AdminAddCar from "../pages/FormCar"
+import AdminDashboard from "../pages/AdminListCar"
+import AdminAddCar from "../pages/AdminFormCar"
 import AdminLogin from "../pages/AdminLogin"
 import Layout from "../layout/Main"
 

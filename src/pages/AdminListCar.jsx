@@ -39,7 +39,6 @@ const AdminListCar = ({searchName}) => {
 
 
   useEffect(() => {
-    console.log('Search name prop changed:', typeof(searchName));
     getData();
   }, [searchName])
 
@@ -67,14 +66,19 @@ const AdminListCar = ({searchName}) => {
   }
 
   const getData = () => {
+    const config = {
+      headers: {
+          access_token : localStorage.getItem('admin_token')
+      }
+  }
 
-    let apiUrl = `https://api-car-rental.binaracademy.org/admin/v2/car`;
+    let apiUrl = `https://api-car-rental.binaracademy.org/admin/v2/car`
 
     if (searchName) {
       apiUrl += `?name=${searchName}`;
     }
     axios
-      .get(apiUrl)
+      .get(apiUrl, config)
       .then((res) => setData(res.data.cars))
       .catch((err) => setErr(err.message));
 
@@ -103,8 +107,7 @@ const AdminListCar = ({searchName}) => {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        access_token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGJjci5pbyIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTY4ODk5Mzk3M30.nKJbi0qYrrXvWgXrjB4TD8RcfcTLYHueOzmZN2bE9t4",
+        access_token : localStorage.getItem('admin_token')
       },
     }
 
