@@ -45,7 +45,7 @@ const AdminLogin = () => {
         }
         if (role === "admin" || role === "Admin") {
           setTimeout(() => {
-            navigate(`/dashboard`);
+            navigate(`/list-cars`);
             
             setLoad(false);
           }, 500);

@@ -9,7 +9,7 @@ import {
     Card,
   } from 'react-bootstrap';
 
-const FromCar = () => {
+const AdminFormCar = () => {
     const [data, setData] = useState ({
         name: "",
         category: "",
@@ -172,4 +172,4 @@ const FromCar = () => {
     )
 }
 
-export default FromCar
+export default AdminFormCar
