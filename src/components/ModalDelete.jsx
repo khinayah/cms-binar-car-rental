@@ -11,7 +11,9 @@ const ModalDelete = ({show, modalId, handleClose, handleDelete}) => {
     <Modal.Header closeButton>
         <Modal.Title>Menghapus Data Mobil ID {modalId}</Modal.Title>
     </Modal.Header>
-    <img src={img} style={{width:'100px'}} />
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <img src={img} style={{ width: '100px' }} alt="Vehicle" />
+    </div>
     <Modal.Body>
         Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin ingin menghapus?</Modal.Body>
     <Modal.Footer>

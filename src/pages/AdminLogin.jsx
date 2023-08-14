@@ -45,10 +45,10 @@ const AdminLogin = () => {
         }
         if (role === "admin" || role === "Admin") {
           setTimeout(() => {
-            navigate("/dashboard");
+            navigate(`/dashboard`);
+            
             setLoad(false);
-
-          }, 3000);
+          }, 500);
         }
       })
       .catch((err) => {
