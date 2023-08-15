@@ -1,6 +1,7 @@
 import AdminLogin from "../pages/AdminLogin"
 import AdminListCar from "../pages/AdminListCar"
 import AdminFormCar from "../pages/AdminFormCar"
+import AdminDashboard from "../pages/AdminDashboard"
 
 export const publicrouting = (props) => {
     return [
@@ -16,6 +17,7 @@ export const privaterouting = (props) => {
         { index: true, path: '/list-cars', element: <AdminListCar {...props} /> },
         { index: true, path: '/list-cars/add-car', element: <AdminFormCar {...props} /> },
         { index: true, path: '/list-cars/edit-car/:id', element: <AdminFormCar {...props} /> },
+        {index: true, path: '/dashboard', element: <AdminDashboard {...props} />}
     ]
 }
 
