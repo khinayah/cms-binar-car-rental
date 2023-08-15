@@ -1,15 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../assets/css/form-car.css'
 import Form from 'react-bootstrap/Form';
 import {
     Row, Col,
     Button,
     Card,
-  } from 'react-bootstrap';
+  } from 'react-bootstrap'
+import { useSearch } from '../context/SearchProvider'
+
+
 
 const AdminFormCar = () => {
+    const { updateSearchTerm } = useSearch()
+    const navigate = useNavigate()
     const [data, setData] = useState ({
         name: "",
         category: "",
@@ -36,7 +41,6 @@ const AdminFormCar = () => {
         if (id) {
             axios.get(`https://api-car-rental.binaracademy.org/admin/car/${id}`, config)
             .then(res => 
-              // console.log(res.data)
               {
               const carData = res.data
               setData({
@@ -44,7 +48,7 @@ const AdminFormCar = () => {
                 category: carData.category,
                 status: carData.status,
                 price: carData.price,
-          });
+          })
         }
         )
             .catch(err => console.log(err))
@@ -65,7 +69,6 @@ const AdminFormCar = () => {
     }
 
     const handleChangePhoto = (e) => {
-        // console.log(e.target.files[0])
         setPhoto(e.target.files[0])
     }
 
@@ -82,13 +85,11 @@ const AdminFormCar = () => {
 
         if(!id) {
             axios.post(`https://api-car-rental.binaracademy.org/admin/car`, formData, config)
-        // {headers}
         .then(res => console.log(res))
         .catch(err => console.log(err))
         }
         else {
             axios.put(`https://api-car-rental.binaracademy.org/admin/car/${id}`, formData, config)
-        // {headers}
         .then(res => {
             let car = data.find((item)=> item.id === currentId)
                 car.name = data.name
@@ -163,7 +164,7 @@ const AdminFormCar = () => {
             </Card.Body>
           </Card>
           <div className='container-action-btn-form d-flex pb-3'>
-            <Button className='btn-cancel' type='button' onClick={() => navigate('/car-list')}>Cancel</Button>
+            <Button className='btn-cancel' type='button' onClick={() => navigate('/list-cars')}>Cancel</Button>
             <Button className='btn-submit' type='submit'>Save</Button>
           </div>
         </div>
