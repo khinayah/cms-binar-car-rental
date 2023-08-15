@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Toast } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Alert } from "react-bootstrap";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import "../assets/css/login.css"
 import backgroundLogin from '../assets/img/image 2.jpg'
+import { useContext } from "react";
+import { LayoutContext } from "../context/LayoutProvider";
 
 const AdminLogin = () => {
-    const navigate = useNavigate();
-    
+    const navigate = useNavigate()
+    const [showSuccessToast, setShowSuccessToast] = useState(false);
     const [form, setForm] = useState({
     email: "",
     password: "",
-  });
+  })
   const [shownAlert, setShownAlert] = useState(false);
   const [succ, setSucc] = useState("");
   const [err, setErr] = useState("");
   const [load, setLoad] = useState(false);
+  const {sidebar, header, setSidebar, setHeader} = useContext(LayoutContext)
+
+  useEffect(() => {
+    setHeader(false)
+    setSidebar(false)
+  }, [])
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,11 +54,14 @@ const AdminLogin = () => {
           localStorage.removeItem("role") 
         }
         if (role === "admin" || role === "Admin") {
-          setTimeout(() => {
-            navigate(`/list-cars`);
+          setSidebar(false)
+          setHeader(false)
+          setShowSuccessToast(true)
+          navigate('/list-cars')
+          // setTimeout(() => {
             
-            setLoad(false);
-          }, 500);
+          //   setLoad(false);
+          // }, 500);
         }
       })
       .catch((err) => {
@@ -79,6 +92,18 @@ const AdminLogin = () => {
                 </p>
               </Alert>
             )}
+            <Toast
+          show={showSuccessToast}
+          onClose={() => setShowSuccessToast(false)}
+          delay={5000}
+          autohide
+          className="success-toast"
+        >
+          <Toast.Header>
+            <strong className="me-auto">Success</strong>
+          </Toast.Header>
+          <Toast.Body>Login successful! Welcome, Admin.</Toast.Body>
+        </Toast>
             <div>
                     <Row>
                         <Col md={12} className="pb-2">
@@ -95,7 +120,9 @@ const AdminLogin = () => {
           </Col>
         </Row>
       </Container>
+
     </div>
+    
   );
 };
 

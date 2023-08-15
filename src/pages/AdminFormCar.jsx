@@ -1,15 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../assets/css/form-car.css'
 import Form from 'react-bootstrap/Form';
 import {
     Row, Col,
     Button,
     Card,
-  } from 'react-bootstrap';
+  } from 'react-bootstrap'
+import { useSearch } from '../context/SearchProvider'
+
+
 
 const AdminFormCar = () => {
+    const { updateSearchTerm } = useSearch()
+    const navigate = useNavigate()
     const [data, setData] = useState ({
         name: "",
         category: "",
@@ -163,7 +168,7 @@ const AdminFormCar = () => {
             </Card.Body>
           </Card>
           <div className='container-action-btn-form d-flex pb-3'>
-            <Button className='btn-cancel' type='button' onClick={() => navigate('/car-list')}>Cancel</Button>
+            <Button className='btn-cancel' type='button' onClick={() => navigate('/list-cars')}>Cancel</Button>
             <Button className='btn-submit' type='submit'>Save</Button>
           </div>
         </div>

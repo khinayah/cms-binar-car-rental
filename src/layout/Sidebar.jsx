@@ -1,59 +1,48 @@
-import React, { useState } from "react";
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
-import { useNavigate } from "react-router-dom";
-import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import iconhome from "../assets/img/fi_home.svg"
-import iconcar from "../assets/img/fi_truck.svg"
-
+import React from "react";
+import { NavLink } from 'react-router-dom';
+import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
+import '../assets/css/layout.css';
+import { useSidebar } from '../context/SidebarProvider';
+import { Link } from 'react-router-dom';
+import iconhome from '../assets/img/fi_home.svg';
+import iconcar from '../assets/img/fi_truck.svg';
 
 const SideBar = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const navigate = useNavigate()
+  const { minimized } = useSidebar()
 
   return (
-//     <SideNav className="sidebar-nav">
-      
-//       <Toggle onClick={() => setIsVisible(!isVisible)} />
-//       <div className="logo"></div>
-//       <Nav defaultSelected="dashboard">
-//         <NavItem eventKey="dashboard">
-//           <NavIcon>
-//             <div className="icon">
-//             <img src={iconhome}  style={{width:"20px"}}/>
-//             {/* <p className="font-icon">Dashboard</p> */}
-//             </div>
-//           </NavIcon>
-//           {/* <NavText style={{background: "white"}}>DASHBOARD</NavText> */}
-//         </NavItem>
-//         <NavItem eventKey="cars">
-//           <NavIcon>
-//             {/* <i style={{fontSize: "1.75em" }}> */}
-              
-//               <img src={iconcar} alt="" />
-//               {/* <p className="font-icon">Cars</p> */}
-//             {/* </i> */}
-//           </NavIcon>
-//           {/* <NavText>CARS</NavText> */}
-//         </NavItem>
-//       </Nav>
-//     </SideNav>
-//   );
-// };
+    <aside className={`sidebar ${minimized ? 'minimized' : ''}`}>
+      <div className="sidebar-blue">
 
-        <Sidebar backgroundColor='#0D28A6' className='sidebar-nav'>
-            <div className='logo mx-4 my-2'/>
-                
-            <Menu>
-                {/* <SubMenu label="Dashboard"> */}
-                    <MenuItem > <img src={iconhome}  style={{width:"20px"}}/> </MenuItem>
-                {/* </SubMenu> */}
-                {/* <SubMenu label="Cars"> */}
-                    <MenuItem > <img src={iconcar} alt="" /></MenuItem>
-                {/* </SubMenu> */}
-            </Menu>
-        </Sidebar>
-    )
-}
+        {/* <div className="cms-logo-container"> */}
+        {/* <div className="cms-logo" style={{ marginLeft: '80px' }}></div> */}
+        {/* </div> */}
+        <Navbar>
+          <div className='my-2'>
+            <div className="d-flex">
+            <div  className='logo  my-2 mx-4'>
+            </div>
+            {/* <div className="cms-logo"></div>     */}
+            </div>
+          <div>
+            <NavLink to='/add-car' className="nav-link">
+                <div style={{ width: '35px', marginBottom: '20px', marginTop: '30px' }} >
+                <img src={iconhome} alt='Home Icon' className=' my-2 mx-4'  />
+                <p className="text-sidebar mx-2">Dashboard</p>
+              </div>
+            </NavLink>
+            <NavLink to='/list-cars' className="nav-link">
+                <div style={{ width: '35px', marginBottom: '20px'}} >
+                <img src={iconcar} alt='Home Icon' className=' my-2 mx-4'  />
+                <p className="text-sidebar mx-2">Cars</p>
+              </div>
+            </NavLink>
+            </div>
+            </div>
+        </Navbar>
+      </div>
+    </aside>
+  );
+};
 
-export default SideBar
+export default SideBar;

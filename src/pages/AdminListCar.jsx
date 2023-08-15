@@ -14,11 +14,11 @@ import axios from 'axios';
 import ModalDelete from '../components/ModalDelete';
 import Toast from 'react-bootstrap/Toast';
 import { useNavigate } from 'react-router-dom';
+import { useSearch } from '../context/SearchProvider';
 
 
-
-
-const AdminListCar = ({searchName}) => {
+const AdminListCar = () => {
+  const { searchTerm } = useSearch()
   let initalForm ={
     name: "",
     category: "",
@@ -34,13 +34,14 @@ const AdminListCar = ({searchName}) => {
   const [isShown, setIsShown] = useState(false)
   const [showToast, setShowToast] = useState(false)
   const navigate = useNavigate()
-  const [filterCategory, setFilterCategory] = useState(null);
+  const [filterCategory, setFilterCategory] = useState(null)
+  
 
 
 
   useEffect(() => {
     getData();
-  }, [searchName])
+  }, [searchTerm])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -58,12 +59,17 @@ const AdminListCar = ({searchName}) => {
     return formattedDate
   }
 
-  const formatPrice = (number)=>{
-    return new Intl.NumberFormat("id-ID", {
+  const formatPrice = (number) => {
+    const formatter = new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR"
-    }).format(number);
+    });
+  
+    const formattedPrice = formatter.format(number);
+  
+    return `Rp ${formattedPrice.substring(3)}`;
   }
+  
 
   const getData = () => {
     const config = {
@@ -74,8 +80,8 @@ const AdminListCar = ({searchName}) => {
 
     let apiUrl = `https://api-car-rental.binaracademy.org/admin/v2/car`
 
-    if (searchName) {
-      apiUrl += `?name=${searchName}`;
+    if (searchTerm) {
+      apiUrl += `?name=${searchTerm}`;
     }
     axios
       .get(apiUrl, config)

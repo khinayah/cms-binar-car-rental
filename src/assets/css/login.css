@@ -20,6 +20,14 @@
     object-fit: fill;
 }
 
+.success-toast {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+}
+
 .offset-lg-0{
     padding: 0;
 }

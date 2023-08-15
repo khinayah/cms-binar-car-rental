@@ -1,5 +1,7 @@
 .template-areas {
     display: flex;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .bg-cms {
@@ -11,4 +13,4 @@
     text-align: center;
     font-size: 24;
     font-weight: bold;
-  }
+}

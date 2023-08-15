@@ -90,6 +90,7 @@
     font-size: 14px !important;
     line-height: 1 !important;
     color: #AEB7E1 !important;
+    margin-right: 10px;
 }
 
 .btn-choose-filter.active {
