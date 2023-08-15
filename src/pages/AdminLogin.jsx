@@ -58,10 +58,6 @@ const AdminLogin = () => {
           setHeader(false)
           setShowSuccessToast(true)
           navigate('/list-cars')
-          // setTimeout(() => {
-            
-          //   setLoad(false);
-          // }, 500);
         }
       })
       .catch((err) => {
@@ -120,10 +116,8 @@ const AdminLogin = () => {
           </Col>
         </Row>
       </Container>
-
     </div>
-    
-  );
-};
+  )
+}
 
 export default AdminLogin;

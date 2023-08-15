@@ -87,10 +87,6 @@ const AdminListCar = () => {
       .get(apiUrl, config)
       .then((res) => setData(res.data.cars))
       .catch((err) => setErr(err.message));
-
-    // setTimeout(() => {
-    //   setErr("");
-    // }, 4000);
   }
 
 
@@ -118,7 +114,6 @@ const AdminListCar = () => {
     }
 
     axios.delete(`https://api-car-rental.binaracademy.org/admin/car/${id}`, config)
-    // {headers}
     .then(res => {
       setIsShown(false)
       setModalId(null)

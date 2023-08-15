@@ -41,7 +41,6 @@ const AdminFormCar = () => {
         if (id) {
             axios.get(`https://api-car-rental.binaracademy.org/admin/car/${id}`, config)
             .then(res => 
-              // console.log(res.data)
               {
               const carData = res.data
               setData({
@@ -49,7 +48,7 @@ const AdminFormCar = () => {
                 category: carData.category,
                 status: carData.status,
                 price: carData.price,
-          });
+          })
         }
         )
             .catch(err => console.log(err))
@@ -70,7 +69,6 @@ const AdminFormCar = () => {
     }
 
     const handleChangePhoto = (e) => {
-        // console.log(e.target.files[0])
         setPhoto(e.target.files[0])
     }
 
@@ -87,13 +85,11 @@ const AdminFormCar = () => {
 
         if(!id) {
             axios.post(`https://api-car-rental.binaracademy.org/admin/car`, formData, config)
-        // {headers}
         .then(res => console.log(res))
         .catch(err => console.log(err))
         }
         else {
             axios.put(`https://api-car-rental.binaracademy.org/admin/car/${id}`, formData, config)
-        // {headers}
         .then(res => {
             let car = data.find((item)=> item.id === currentId)
                 car.name = data.name

@@ -42,25 +42,25 @@
 
 .sign-in-wrapper {
     padding-left: 5%;
-background-color: white;
-display: flex;
-flex-direction: column;
-justify-content: center;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .sign-in-wrapper-child {
-margin-bottom: 16px;
+    margin-bottom: 16px;
 }
 
 .sign-in-wrapper-child input {
-width: 100%;
+    width: 100%;
 }
 
 .logo {
-width: 100px;
-height: 34px;
-background-color: #cfd4ed;
-text-align: center;
+    width: 100px;
+    height: 34px;
+    background-color: #cfd4ed;
+    text-align: center;
 }
 
 .logo-square {

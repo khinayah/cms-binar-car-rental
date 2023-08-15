@@ -35,12 +35,6 @@ const Header = () => {
         }
   }
 
-//   const handleSearch = () => {
-//     console.log('Search term:', searchName)
-//     setSearchButtonClicked(true)
-//     onSearchNameChange(searchName === '' ? null : searchName);
-//   }
-
   return (
     <div className='header-nav d-flex justify-content align-items-center'>
         <button className="bi bi-list toggle-button" onClick={toggleSidebar}></button>
@@ -76,7 +70,7 @@ const Header = () => {
         </Dropdown.Menu>
       </Dropdown>
     </div>
-  );
-};
+  )
+}
 
 export default Header;
