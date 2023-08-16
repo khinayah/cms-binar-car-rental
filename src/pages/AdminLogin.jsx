@@ -7,10 +7,13 @@ import Form from "../components/Form";
 import Input from "../components/Input";
 import "../assets/css/login.css"
 import backgroundLogin from '../assets/img/image 2.jpg'
-import { useContext } from "react";
-import { LayoutContext } from "../context/LayoutProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { onLogin } from "../redux/action/loginAction";
+
 
 const AdminLogin = () => {
+    const {loading, token, error} = useSelector((state) => state.loginReducer)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [showSuccessToast, setShowSuccessToast] = useState(false);
     const [form, setForm] = useState({
@@ -20,13 +23,6 @@ const AdminLogin = () => {
   const [shownAlert, setShownAlert] = useState(false);
   const [succ, setSucc] = useState("");
   const [err, setErr] = useState("");
-  const [load, setLoad] = useState(false);
-  const {sidebar, header, setSidebar, setHeader} = useContext(LayoutContext)
-
-  useEffect(() => {
-    setHeader(false)
-    setSidebar(false)
-  }, [])
 
 
   const handleChange = (e) => {
@@ -35,37 +31,38 @@ const AdminLogin = () => {
   };
 
   const handleSubmit = (e) => {
-    setLoad(true);
-    const data = {
-      email: form.email,
-      password: form.password,
-    };
+    e.preventDefault()
+    // setLoad(true);
+    // const data = {
+    //   email: form.email,
+    //   password: form.password,
+    // };
 
-    axios
-      .post(`https://api-car-rental.binaracademy.org/admin/auth/login`, data)
-      .then((res) => {
-        // console.log(res);
-        localStorage.setItem("admin_token", res.data.access_token);
-        localStorage.setItem("role", res.data.role);
-        const role = localStorage.getItem("role");
-        if (role==="Customer") {
-          setShownAlert(true);
-          localStorage.removeItem("admin_token");
-          localStorage.removeItem("role") 
-        }
-        if (role === "admin" || role === "Admin") {
-          setSidebar(false)
-          setHeader(false)
-          setShowSuccessToast(true)
-          navigate('/list-cars')
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoad(false);
-        setShownAlert(true);
-      });
-  };
+    // axios
+    //   .post(`https://api-car-rental.binaracademy.org/admin/auth/login`, data)
+    //   .then((res) => {
+    //     // console.log(res);
+    //     localStorage.setItem("admin_token", res.data.access_token);
+    //     localStorage.setItem("role", res.data.role);
+    //     const role = localStorage.getItem("role");
+    //     if (role==="Customer") {
+    //       setShownAlert(true);
+    //       localStorage.removeItem("admin_token");
+    //       localStorage.removeItem("role") 
+    //     }
+    //     if (role === "admin" || role === "Admin") {
+    //       setShowSuccessToast(true)
+    //       navigate('/list-cars')
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setLoad(false);
+    //     setShownAlert(true);
+    //   });
+    dispatch(onLogin(form, navigate))
+    // console.log("test", token, loading, error)
+  }
 
   return (
     <div className="admin-login-body">
@@ -80,15 +77,15 @@ const AdminLogin = () => {
               <div className="logo"></div>
             </div>
             <h2 className="font-title-cms">Welcome, Admin BCR</h2>
-            {shownAlert && (
+            {shownAlert ? (
               <Alert className="alert-login">
                 <p>
                   Masukkan username dan password yang benar. Perhatikan
                   penggunaan huruf kapital.
                 </p>
               </Alert>
-            )}
-            <Toast
+            ) : null}
+            {token.length ? (<Toast
           show={showSuccessToast}
           onClose={() => setShowSuccessToast(false)}
           delay={5000}
@@ -99,7 +96,8 @@ const AdminLogin = () => {
             <strong className="me-auto">Success</strong>
           </Toast.Header>
           <Toast.Body>Login successful! Welcome, Admin.</Toast.Body>
-        </Toast>
+          </Toast>
+          ) : null}
             <div>
                     <Row>
                         <Col md={12} className="pb-2">
@@ -109,7 +107,7 @@ const AdminLogin = () => {
                             <Input  name="password" label={"Password"} required type="password" value={form.password} placeholder="6+ karakter" className="form-control" onChange={handleChange}/>
                         </Col>
                         <Col md={12} className="pt-2">
-                            <Button type='submit' className='w-100' style={{ backgroundColor: "#0D28A6" }} onClick={handleSubmit}> {load ? "Loading..." : "Sign In"}</Button>
+                            <Button type='submit' className='w-100' style={{ backgroundColor: "#0D28A6" }} onClick={handleSubmit}> {loading ? "Loading..." : "Sign In"}</Button>
                         </Col>
                     </Row>
                 </div>

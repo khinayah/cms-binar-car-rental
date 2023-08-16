@@ -1,20 +1,30 @@
 import { useRoutes } from "react-router-dom"
-import { privaterouting, publicrouting } from "./route"
 import Layout from "../layout/Main"
+import AdminLogin from "../pages/AdminLogin"
+import AdminListCar from "../pages/AdminListCar"
+import AdminAddCar from "../pages/AdminAddCar"
+import AdminEditCar from "../pages/AdminEditCar"
 
 
-export const AppPublicRoute = (props) => {
-    const routes = useRoutes(publicrouting(props))
+export const PublicRoute = () => {
+    const routes = useRoutes([
+        { index: true, path: '/', element: <AdminLogin />, },
+        { index: true, path: '/login', element: <AdminLogin />, }
+    ])
     return routes
 }
 
-export const AppPrivateRoute = (props) => {
-    const routes = useRoutes(privaterouting(props))
+export const PrivateRoute = () => {
+    const routes = useRoutes([
+        { index: true, path: '/list-cars', element: <AdminListCar/> },
+        { index: true, path: '/list-cars/add-car', element: <AdminAddCar/> },
+        { index: true, path: '/list-cars/edit-car/:id', element: <AdminEditCar/> },
+    ])
     return routes
 }
 
-export const AuthProvider = (props) => {
-    const ACCESS_TOKEN = localStorage.getItem("admin_token")
-    const isLoggedIn = ACCESS_TOKEN ? true : false;
-    return isLoggedIn ? <Layout {...props} /> : <AppPublicRoute />
+export const Auth = () => {
+    const access_token = localStorage.getItem("admin_token")
+    const isLoggedIn = access_token ? true : false
+    return isLoggedIn ? <Layout /> : <PublicRoute />
 }

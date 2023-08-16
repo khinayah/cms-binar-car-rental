@@ -2,36 +2,37 @@ import React, { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Button, InputGroup, FormControl } from 'react-bootstrap';
 import "../assets/css/layout.css"
-import { useSidebar } from '../context/SidebarProvider';
-import { useSearch } from '../context/SearchProvider';
+import { SidebarContext } from '../context/SidebarProvider';
+import { SearchContext } from '../context/SearchProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { useContext } from 'react';
 
 
 const Header = () => {
-    const { updateSearchTerm } = useSearch()
+    const {setSearchValue} = useContext(SearchContext)
     const role = localStorage.getItem('role')
-    const [inputValue, setInputValue] = useState('')
-    const { toggleSidebar } = useSidebar()
+    const [inputSearch, setInputSearch] = useState('')
+    const {toggleSidebar} = useContext(SidebarContext)
     const location = useLocation()
     const navigate = useNavigate()
 
     const handleInputChange = (event) => {
-        setInputValue(event.target.value);
+        setInputSearch(event.target.value)
     }
-
-  const handleLogout = () => {
-    localStorage.removeItem('admin_token')
-    window.location.replace('/')
+    
+    const handleLogout = () => {
+      localStorage.removeItem('admin_token')
+      window.location.replace('/')
   }
 
   const handleSearch = () => {
     const isListCarPage = location.pathname === '/list-cars'
         if (isListCarPage) {
-            updateSearchTerm(inputValue)
+          console.log(inputSearch)
+          setSearchValue(inputSearch)
         } else {
-          updateSearchTerm(inputValue)
-          navigate('/list-cars');
+          setSearchValue(inputSearch)
+          navigate('/list-cars')
         }
   }
 
@@ -48,7 +49,7 @@ const Header = () => {
               style={{ border: 'none' }}
               type='text'
               placeholder='Search'
-              value={inputValue}
+              value={inputSearch}
               onChange={handleInputChange}
             />
           </InputGroup>

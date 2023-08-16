@@ -8,28 +8,22 @@ import {
     Button,
     Card,
   } from 'react-bootstrap'
-import { useSearch } from '../context/SearchProvider'
+import Spinner from 'react-bootstrap/Spinner';
+import { Toast } from 'react-bootstrap';
 
 
 
-const AdminFormCar = () => {
-    const { updateSearchTerm } = useSearch()
+const AdminAddCar = () => {
+  
     const navigate = useNavigate()
-    const [data, setData] = useState ({
-        name: "",
-        category: "",
-        status: false,
-        minPrice: 0,
-        maxPrice: 0,
-        price: 0
-    })
+    const [isLoading, setIsLoading] = useState(false)
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [category, setCategory] = useState('')
     const [photo, setPhoto] = useState(null)
     const {id} = useParams()
+    const [showToast, setShowToast] = useState(false)
 
-    // const headers = {}
     const config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -41,17 +35,10 @@ const AdminFormCar = () => {
         if (id) {
             axios.get(`https://api-car-rental.binaracademy.org/admin/car/${id}`, config)
             .then(res => 
-              {
-              const carData = res.data
-              setData({
-                nama: carData.name,
-                category: carData.category,
-                status: carData.status,
-                price: carData.price,
-          })
-        }
-        )
-            .catch(err => console.log(err))
+              console.log(res.data.cars))
+            .catch(err => {
+              console.log(err)
+            })
         }
     }, [id])
 
@@ -75,34 +62,38 @@ const AdminFormCar = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
+        setIsLoading(true)
+
         const formData = new FormData()
         formData.append('name', name)
         formData.append('category', category)
         formData.append('price', parseInt(price))
         formData.append('status', false)
-        formData.append('image', photo)
+        formData.append('image', photo) 
 
 
-        if(!id) {
-            axios.post(`https://api-car-rental.binaracademy.org/admin/car`, formData, config)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
-        }
-        else {
-            axios.put(`https://api-car-rental.binaracademy.org/admin/car/${id}`, formData, config)
+        axios.post(`https://api-car-rental.binaracademy.org/admin/car`, formData, config)
         .then(res => {
-            let car = data.find((item)=> item.id === currentId)
-                car.name = data.name
-                setData([...data])
-            console.log(res)
+          setIsLoading(false)
+          setShowToast(true)
+          console.log(res)
+          navigate('/list-cars')
         })
-        .catch(err => console.log(err))
-        }
+        .catch(err => {
+          setIsLoading(false)
+          console.log(err)
+        })
+        
     }
     
 
     return (
         <>
+        {
+          isLoading ? ( <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+          ) : (
         <Form onSubmit={handleSubmit}>
         <div className='container-form-add d-flex flex-column justify-content-between'>
           <Card className='card card-form-container'>
@@ -111,13 +102,13 @@ const AdminFormCar = () => {
                 <Form.Label for="namaMobil" className='label-input-form d-flex align-items-center mb-0'>
                   Nama/Tipe Mobil<sup className='sup-star'>*</sup>
                 </Form.Label>
-                <input id="namaMobil" name='name' value={data.nama} onChange={handleChangeName} className="input-field-form" placeholder="Input Nama/Tipe Mobil" type="text"/>
+                <input id="namaMobil" name='name' value={name} onChange={handleChangeName} className="input-field-form" placeholder="Input Nama/Tipe Mobil" type="text"/>
               </Form.Group>
               <Form.Group className="form-group-input d-flex">
                 <Form.Label for="hargaMobil" className='label-input-form d-flex align-items-center mb-0'>
                   Harga<sup className='sup-star'>*</sup>
                 </Form.Label>
-                <input id="hargaMobil" name="Harga" value={data.price} onChange={handleChangePrice} className="input-field-form" placeholder="Input Harga Sewa Mobil" type="number"/>
+                <input id="hargaMobil" name="price" value={price} onChange={handleChangePrice} className="input-field-form" placeholder="Input Harga Sewa Mobil" type="number"/>
               </Form.Group>
               <Form.Group className="form-group-input d-flex">
                 <Form.Label for="fotoMobil" className='label-input-form d-flex align-items-center mb-0'>
@@ -135,7 +126,7 @@ const AdminFormCar = () => {
                   Kategori<sup className='sup-star'>*</sup>
                 </Form.Label>
                 <div className='container-selectbox'>
-                  <Form.Select id="kategoriMobil" onChange={handleChangeCategory} value={data.category} name="Kapasitas" className="input-field-form select">
+                  <Form.Select id="kategoriMobil" onChange={handleChangeCategory} value={category} name="Kapasitas" className="input-field-form select">
                   <option>Pilih Kategori Mobil</option>
                   <option value="small">2 - 4 Orang</option>
                   <option value="medium">4 - 6 Orang</option>
@@ -169,8 +160,9 @@ const AdminFormCar = () => {
           </div>
         </div>
       </Form>
+          )}
         </>
     )
 }
 
-export default AdminFormCar
+export default AdminAddCar

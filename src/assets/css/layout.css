@@ -39,7 +39,7 @@
     }
 
 .logo {
-    width: 34px;
+    width: 34px !important;
     height: 34px;
     background-color: #cfd4ed;
     text-align: center;
@@ -127,7 +127,6 @@
 
 .sidebar {
   width: 350px;
-  height: 100%;
   background-color: fff;
   position: relative;
   transition: width 0.3s ease;

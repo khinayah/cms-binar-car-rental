@@ -14,11 +14,12 @@ import axios from 'axios';
 import ModalDelete from '../components/ModalDelete';
 import Toast from 'react-bootstrap/Toast';
 import { useNavigate } from 'react-router-dom';
-import { useSearch } from '../context/SearchProvider';
+import { SearchContext } from '../context/SearchProvider';
+import { useContext } from 'react';
 
 
 const AdminListCar = () => {
-  const { searchTerm } = useSearch()
+  const { searchValue} = useContext(SearchContext)
   let initalForm ={
     name: "",
     category: "",
@@ -35,13 +36,11 @@ const AdminListCar = () => {
   const [showToast, setShowToast] = useState(false)
   const navigate = useNavigate()
   const [filterCategory, setFilterCategory] = useState(null)
-  
-
 
 
   useEffect(() => {
     getData();
-  }, [searchTerm])
+  }, [searchValue])
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -78,11 +77,8 @@ const AdminListCar = () => {
       }
   }
 
-    let apiUrl = `https://api-car-rental.binaracademy.org/admin/v2/car`
+    let apiUrl = `https://api-car-rental.binaracademy.org/admin/v2/car?name=${searchValue}`
 
-    if (searchTerm) {
-      apiUrl += `?name=${searchTerm}`;
-    }
     axios
       .get(apiUrl, config)
       .then((res) => setData(res.data.cars))
@@ -131,7 +127,7 @@ const AdminListCar = () => {
     <div>
       {
         showToast &&  <Toast autohide>
-        <Toast.Body className={variant === 'Dark' && 'text-white'}>Data Berhasil Dihapus</Toast.Body>
+        <Toast.Body >Data Berhasil Dihapus</Toast.Body>
         </Toast>
       }
         <div>
@@ -172,6 +168,9 @@ const AdminListCar = () => {
           </Button>
         </div>
         <div className="mx-auto">
+        {data.length === 0 ? ( // Condition for no cars found
+          <p>No cars matching your search were found.</p>
+        ) : (
         <Row>{
           data
           .filter(item => filterCategory === null || item.category === filterCategory)
@@ -225,6 +224,7 @@ const AdminListCar = () => {
             )
           })
         }</Row>
+        )}
         </div>
     </div>
   );

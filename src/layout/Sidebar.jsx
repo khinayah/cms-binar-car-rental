@@ -2,13 +2,14 @@ import React from "react";
 import { NavLink } from 'react-router-dom';
 import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import '../assets/css/layout.css';
-import { useSidebar } from '../context/SidebarProvider';
+import { SidebarContext } from '../context/SidebarProvider';
 import { Link } from 'react-router-dom';
 import iconhome from '../assets/img/fi_home.svg';
 import iconcar from '../assets/img/fi_truck.svg';
+import { useContext } from "react";
 
 const SideBar = () => {
-  const { minimized } = useSidebar()
+  const { minimized } = useContext(SidebarContext)
 
   return (
     <aside className={`sidebar ${minimized ? 'minimized' : ''}`}>
@@ -20,8 +21,7 @@ const SideBar = () => {
         <Navbar>
           <div className='my-2'>
             <div className="d-flex">
-            <div  className='logo  my-2 mx-4'>
-            </div>
+            <div className='logo  my-2 mx-4'/>
             {/* <div className="cms-logo"></div>     */}
             </div>
           <div>
