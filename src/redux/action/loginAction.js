@@ -15,7 +15,8 @@ export const onLogin = (form, navigate) =>  (dispatch) => {
         localStorage.setItem("role", res.data.role)
         const role = localStorage.getItem("role")
         if (role === "admin" || role === "Admin") {
-          navigate('/list-cars')
+          navigate('/dashboard')
+          location.reload()
         }
         dispatch ({
             type: "IS_LOGGED_IN",

@@ -10,8 +10,9 @@ import { Provider } from 'react-redux'
 import store from './redux/store.js'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename="/">
+<React.StrictMode>
     <Provider store={store}>
+      <BrowserRouter>
     <LayoutProvider>
       <SidebarProvider>
         <SearchProvider>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         </SearchProvider>
       </SidebarProvider>
     </LayoutProvider>
+    </BrowserRouter>
     </Provider>
-  </BrowserRouter>
+    </React.StrictMode>
 )

@@ -16,10 +16,12 @@ import Toast from 'react-bootstrap/Toast';
 import { useNavigate } from 'react-router-dom';
 import { SearchContext } from '../context/SearchProvider';
 import { useContext } from 'react';
+import { Spinner } from 'react-bootstrap';
+
 
 
 const AdminListCar = () => {
-  const { searchValue} = useContext(SearchContext)
+  const {searchValue} = useContext(SearchContext)
   let initalForm ={
     name: "",
     category: "",
@@ -27,6 +29,7 @@ const AdminListCar = () => {
     minPrice: 0,
     maxPrice: 0,
   }
+  const [isLoading, setIsLoading] = useState(false);
   let kategori = ""
   const [data, setData] = useState([])
   const [err, setErr] = useState("")
@@ -39,7 +42,8 @@ const AdminListCar = () => {
 
 
   useEffect(() => {
-    getData();
+    setIsLoading(true)
+    getData()
   }, [searchValue])
 
   const formatDate = (dateString) => {
@@ -54,7 +58,7 @@ const AdminListCar = () => {
       timeZone: 'UTC'
     };
   
-    const formattedDate = date.toLocaleDateString('en-US', options).replace(",", "");
+    const formattedDate = date.toLocaleDateString('en-US', options).replace(",", "")
     return formattedDate
   }
 
@@ -64,9 +68,9 @@ const AdminListCar = () => {
       currency: "IDR"
     });
   
-    const formattedPrice = formatter.format(number);
+    const formattedPrice = formatter.format(number)
   
-    return `Rp ${formattedPrice.substring(3)}`;
+    return `Rp ${formattedPrice.substring(3)}`
   }
   
 
@@ -81,8 +85,14 @@ const AdminListCar = () => {
 
     axios
       .get(apiUrl, config)
-      .then((res) => setData(res.data.cars))
-      .catch((err) => setErr(err.message));
+      .then((res) => {
+        setData(res.data.cars)
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        setErr(err.message)
+        setIsLoading(false)
+      })
   }
 
 
@@ -98,6 +108,7 @@ const AdminListCar = () => {
   }
 
   const handleEdit = (id) => {
+    console.log('Edit button clicked for car ID:', id);
     navigate(`/list-cars/edit-car/${id}`)
   }
 
@@ -168,8 +179,14 @@ const AdminListCar = () => {
           </Button>
         </div>
         <div className="mx-auto">
-        {data.length === 0 ? ( // Condition for no cars found
-          <p>No cars matching your search were found.</p>
+        {isLoading ? ( 
+          <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        ) : data.length === 0 ? ( 
+          <p>No cars found.</p>
         ) : (
         <Row>{
           data
@@ -213,8 +230,8 @@ const AdminListCar = () => {
                         </Button>
                       </Col>
                       <Col className="px-2">
-                        <Button className='btn-edit-car'>
-                          <i className="fa fa-pencil-square-o pe-2" aria-hidden="true" onClick={() => handleEdit(item.id)}></i> Edit
+                        <Button className='btn-edit-car' onClick={() => handleEdit(item.id)}>
+                          <i className="fa fa-pencil-square-o pe-2" aria-hidden="true" ></i> Edit
                         </Button>
                       </Col>
                     </Row>

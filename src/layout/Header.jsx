@@ -22,6 +22,7 @@ const Header = () => {
     
     const handleLogout = () => {
       localStorage.removeItem('admin_token')
+      localStorage.removeItem('role')
       window.location.replace('/')
   }
 

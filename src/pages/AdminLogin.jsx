@@ -3,7 +3,6 @@ import axios from "axios";
 import { Toast } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Alert } from "react-bootstrap";
-import Form from "../components/Form";
 import Input from "../components/Input";
 import "../assets/css/login.css"
 import backgroundLogin from '../assets/img/image 2.jpg'
@@ -27,8 +26,8 @@ const AdminLogin = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
+    setForm({ ...form, [name]: value })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()

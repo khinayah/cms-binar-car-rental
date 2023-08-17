@@ -26,7 +26,7 @@ const AdminDashboard = () => {
         }
     };
 
-    console.log("data", data);
+    // console.log("data", data);
 
     return (
         <Table striped bordered hover>
