@@ -4,6 +4,7 @@ import AdminLogin from "../pages/AdminLogin"
 import AdminListCar from "../pages/AdminListCar"
 import AdminAddCar from "../pages/AdminAddCar"
 import AdminEditCar from "../pages/AdminEditCar"
+import AdminDashboard from "../pages/AdminDashboard"
 
 
 export const PublicRoute = () => {
@@ -19,6 +20,7 @@ export const PrivateRoute = () => {
         { index: true, path: '/list-cars', element: <AdminListCar/> },
         { index: true, path: '/list-cars/add-car', element: <AdminAddCar/> },
         { index: true, path: '/list-cars/edit-car/:id', element: <AdminEditCar/> },
+        { index: true, path: '/dashboard', element: <AdminDashboard/> },
     ])
     return routes
 }
