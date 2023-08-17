@@ -17,10 +17,10 @@ export const PublicRoute = () => {
 
 export const PrivateRoute = () => {
     const routes = useRoutes([
-        { path: '/dashboard', element: <AdminDashboard/> },
-        { path: '/list-cars', element: <AdminListCar/> },
-        { path: '/list-cars/add-car', element: <AdminAddCar/> },
-        { path: '/list-cars/edit-car/:id', element: <AdminEditCar/> },
+        { index: true, path: '/list-cars', element: <AdminDashboard/> },
+        { index: true, path: '/list-cars', element: <AdminListCar/> },
+        { index: true, path: '/list-cars/add-car', element: <AdminAddCar/> },
+        { index: true, path: '/list-cars/edit-car/:id', element: <AdminEditCar/> },
     ])
     return routes
 }
