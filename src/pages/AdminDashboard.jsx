@@ -40,6 +40,27 @@ const AdminDashboard = () => {
     getChart(selectedMonth);
   };
 
+  const getChart = () => {
+    if (selectedMonth) {
+      axios
+        .get(
+          `https://api-car-rental.binaracademy.org/admin/order/reports?from=${selectedMonth}-01&until=${selectedMonth}-31`,
+          {
+            headers: {
+              access_token: localStorage.getItem("admin_token"),
+            },
+          }
+        )
+        .then((resChart) => {
+          console.log("");
+          setChart(resChart.data);
+          // console.log(res);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+
   const getData = async () => {
     try {
       const res = await axios.get(
@@ -56,7 +77,11 @@ const AdminDashboard = () => {
     }
   };
 
-    console.log("data", data);
+//   console.log("chart", chart);
+  const labels = chart.map((item) => item.day);
+  const barData = chart.map((item) => item.orderCount);
+
+    // console.log("data", data);
 
   return (
     <div>
