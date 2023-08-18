@@ -6,21 +6,21 @@ import AdminAddCar from "../pages/AdminAddCar"
 import AdminEditCar from "../pages/AdminEditCar"
 import AdminDashboard from "../pages/AdminDashboard"
 
-
 export const PublicRoute = () => {
     const routes = useRoutes([
         { index: true, path: '/', element: <AdminLogin />, },
-        { index: true, path: '/login', element: <AdminLogin />, }
+        { path: '/login', element: <AdminLogin />, }
     ])
     return routes
 }
 
 export const PrivateRoute = () => {
     const routes = useRoutes([
-        { index: true, path: '/list-cars', element: <AdminListCar/> },
-        { index: true, path: '/list-cars/add-car', element: <AdminAddCar/> },
-        { index: true, path: '/list-cars/edit-car/:id', element: <AdminEditCar/> },
-        { index: true, path: '/dashboard', element: <AdminDashboard/> },
+        { index: true, path: '/', element: <AdminDashboard />, },
+        { path: '/dashboard', element: <AdminDashboard/> },
+        { path: '/list-cars', element: <AdminListCar/> },
+        { path: '/list-cars/add-car', element: <AdminAddCar/> },
+        { path: '/list-cars/edit-car/:id', element: <AdminEditCar/> },
     ])
     return routes
 }

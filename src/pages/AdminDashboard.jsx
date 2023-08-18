@@ -36,22 +36,6 @@ const AdminDashboard = () => {
 
   
 
-  const getData = async () => {
-    try {
-      const res = await axios.get(
-        `https://api-car-rental.binaracademy.org/admin/v2/order?sort=created_at%3Adesc&page=1&pageSize=10`,
-        {
-          headers: {
-            access_token: localStorage.getItem("admin_token"),
-          },
-        }
-      );
-      setData(res.data.orders);
-    } catch (err) {
-      setErr(err.message);
-    }
-  };
-
   const getChart = () => {
     if (selectedMonth) {
       axios
@@ -72,34 +56,28 @@ const AdminDashboard = () => {
     }
   };
 
-  const changeMonth = (e) => {
-    setSelectedMonth(e.target.value);
-    console.log("selectedMonth", selectedMonth);
-    // getChart(selectedMonth);
-  };
 
-  const [sortColumn, setSortColumn] = useState(""); // State untuk menyimpan kolom yang akan diurutkan
-  const [sortDirection, setSortDirection] = useState("asc"); // State untuk menyimpan arah urutan (asc/desc)
-
-  const handleSort = (column) => {
-    if (sortColumn === column) {
-      // Jika kolom yang diklik sama dengan kolom yang sebelumnya diurutkan, ubah arah urutan
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      // Jika kolom yang diklik berbeda dengan kolom yang sebelumnya diurutkan, urutkan secara default
-      setSortColumn(column);
-      setSortDirection("asc");
+  const getData = async () => {
+    try {
+      const res = await axios.get(
+        `https://api-car-rental.binaracademy.org/admin/v2/order?sort=created_at%3Adesc&page=1&pageSize=10`,
+        {
+          headers: {
+            access_token: localStorage.getItem("admin_token"),
+          },
+        }
+      );
+      setData(res.data.orders);
+    } catch (err) {
+      setErr(err.message);
     }
   };
 
-  // Membangun data untuk grafik
-  console.log("chart", chart);
+//   console.log("chart", chart);
   const labels = chart.map((item) => item.day);
   const barData = chart.map((item) => item.orderCount);
-  // console.log("labels", labels);
-  // console.log("barData", barData);
-  // console.log("data", data);
-  // console.log("chartData", chartData)
+
+    // console.log("data", data);
 
   return (
     <div>

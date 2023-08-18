@@ -3,7 +3,6 @@ import axios from "axios";
 import { Toast } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Alert } from "react-bootstrap";
-import Form from "../components/Form";
 import Input from "../components/Input";
 import "../assets/css/login.css"
 import backgroundLogin from '../assets/img/image 2.jpg'
@@ -21,45 +20,15 @@ const AdminLogin = () => {
     password: "",
   })
   const [shownAlert, setShownAlert] = useState(false);
-  const [succ, setSucc] = useState("");
-  const [err, setErr] = useState("");
 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
+    setForm({ ...form, [name]: value })
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // setLoad(true);
-    // const data = {
-    //   email: form.email,
-    //   password: form.password,
-    // };
-
-    // axios
-    //   .post(`https://api-car-rental.binaracademy.org/admin/auth/login`, data)
-    //   .then((res) => {
-    //     // console.log(res);
-    //     localStorage.setItem("admin_token", res.data.access_token);
-    //     localStorage.setItem("role", res.data.role);
-    //     const role = localStorage.getItem("role");
-    //     if (role==="Customer") {
-    //       setShownAlert(true);
-    //       localStorage.removeItem("admin_token");
-    //       localStorage.removeItem("role") 
-    //     }
-    //     if (role === "admin" || role === "Admin") {
-    //       setShowSuccessToast(true)
-    //       navigate('/list-cars')
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setLoad(false);
-    //     setShownAlert(true);
-    //   });
     dispatch(onLogin(form, navigate))
     // console.log("test", token, loading, error)
   }
