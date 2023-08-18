@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import { Bar } from "react-chartjs-2";
-import {CategoryScale} from 'chart.js'; 
-import Chart from 'chart.js/auto';
+import { CategoryScale } from "chart.js";
+import Chart from "chart.js/auto";
 import { Form } from "react-bootstrap";
+import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons CSS
 
 const AdminDashboard = () => {
   const [data, setData] = useState([]);
@@ -12,7 +13,6 @@ const AdminDashboard = () => {
   const [chartData, setChartData] = useState({});
   const [selectedMonth, setSelectedMonth] = useState("2023-07");
   const [err, setErr] = useState("");
-
 
   useEffect(() => {
     getData();
@@ -34,11 +34,7 @@ const AdminDashboard = () => {
     { value: "2023-12", label: "Desember - 2023" },
   ];
 
-  const changeMonth = (e) => {
-    setSelectedMonth(e.target.value);
-    console.log("selectedMonth", selectedMonth);
-    getChart(selectedMonth);
-  };
+  
 
   const getData = async () => {
     try {
@@ -73,6 +69,26 @@ const AdminDashboard = () => {
           // console.log(res);
         })
         .catch((err) => console.log(err));
+    }
+  };
+
+  const changeMonth = (e) => {
+    setSelectedMonth(e.target.value);
+    console.log("selectedMonth", selectedMonth);
+    // getChart(selectedMonth);
+  };
+
+  const [sortColumn, setSortColumn] = useState(""); // State untuk menyimpan kolom yang akan diurutkan
+  const [sortDirection, setSortDirection] = useState("asc"); // State untuk menyimpan arah urutan (asc/desc)
+
+  const handleSort = (column) => {
+    if (sortColumn === column) {
+      // Jika kolom yang diklik sama dengan kolom yang sebelumnya diurutkan, ubah arah urutan
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      // Jika kolom yang diklik berbeda dengan kolom yang sebelumnya diurutkan, urutkan secara default
+      setSortColumn(column);
+      setSortDirection("asc");
     }
   };
 
@@ -118,7 +134,15 @@ const AdminDashboard = () => {
         <thead>
           <tr>
             <th>No</th>
-            <th>User Email</th>
+            <th onClick={() => handleSort("UserEmail")}>
+              User Email{" "}
+              {sortColumn === "UserEmail" && (
+                <i
+                  className={`bi bi-arrow-${sortDirection}`}
+                  style={{ marginLeft: "0.25rem" }}
+                ></i>
+              )}
+            </th>
             <th>Car</th>
             <th>Start Rent</th>
             <th>Finish Rent</th>
