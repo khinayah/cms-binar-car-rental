@@ -16,6 +16,7 @@ export const PublicRoute = () => {
 
 export const PrivateRoute = () => {
     const routes = useRoutes([
+        { index: true, path: '/', element: <AdminDashboard />, },
         { path: '/dashboard', element: <AdminDashboard/> },
         { path: '/list-cars', element: <AdminListCar/> },
         { path: '/list-cars/add-car', element: <AdminAddCar/> },
