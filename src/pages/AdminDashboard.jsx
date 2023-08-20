@@ -16,8 +16,12 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     getData();
-    getChart();
+    getChart
   }, []);
+
+  useEffect(() => {
+    getChart();
+  }, [selectedMonth])
 
   const monthsAndYears = [
     { value: "2023-01", label: "Januari - 2023" },
@@ -56,6 +60,28 @@ const AdminDashboard = () => {
     }
   };
 
+  const changeMonth = (e) => {
+    setSelectedMonth(e.target.value);
+    console.log("selectedMonth", selectedMonth);
+    // getChart(selectedMonth);
+  };
+
+  const [sortColumn, setSortColumn] = useState(""); // State untuk menyimpan kolom yang akan diurutkan
+  const [sortDirection, setSortDirection] = useState("asc"); // State untuk menyimpan arah urutan (asc/desc)
+
+  const handleSort = (column) => {
+    if (sortColumn === column) {
+      // Jika kolom yang diklik sama dengan kolom yang sebelumnya diurutkan, ubah arah urutan
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      // Jika kolom yang diklik berbeda dengan kolom yang sebelumnya diurutkan, urutkan secara default
+      setSortColumn(column);
+      setSortDirection("asc");
+    }
+  };
+
+  // Membangun data untuk grafik
+  console.log("chart", chart);
 
   const getData = async () => {
     try {
