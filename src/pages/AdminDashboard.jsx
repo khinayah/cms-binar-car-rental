@@ -12,12 +12,18 @@ const AdminDashboard = () => {
   const [chart, setChart] = useState([]);
   const [chartData, setChartData] = useState({});
   const [selectedMonth, setSelectedMonth] = useState("2023-07");
+  const [pageSize, setPageSize]=useState(10);
+  const [page, setPage]=useState(1);
   const [err, setErr] = useState("");
 
   useEffect(() => {
     getData();
     getChart
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [page, pageSize])
 
   useEffect(() => {
     getChart();
@@ -66,6 +72,14 @@ const AdminDashboard = () => {
     // getChart(selectedMonth);
   };
 
+  const changePageSize = (e) => {
+    setPageSize(e.target.value);
+  }
+
+  const changePage = (e) => {
+    setPage(e.target.value)
+  }
+
   const [sortColumn, setSortColumn] = useState(""); // State untuk menyimpan kolom yang akan diurutkan
   const [sortDirection, setSortDirection] = useState("asc"); // State untuk menyimpan arah urutan (asc/desc)
 
@@ -82,11 +96,12 @@ const AdminDashboard = () => {
 
   // Membangun data untuk grafik
   console.log("chart", chart);
+  let tableApi = `https://api-car-rental.binaracademy.org/admin/v2/order?sort=created_at%3Adesc&page=${page}&pageSize=${pageSize}`
 
   const getData = async () => {
     try {
       const res = await axios.get(
-        `https://api-car-rental.binaracademy.org/admin/v2/order?sort=created_at%3Adesc&page=1&pageSize=10`,
+        tableApi,
         {
           headers: {
             access_token: localStorage.getItem("admin_token"),
@@ -168,6 +183,24 @@ const AdminDashboard = () => {
           ))}
         </tbody>
       </Table>
+      <div>
+        <select name="" id="" onChange={changePageSize}>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+      <div>
+        <select name="" id="" onChange={changePage}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
     </div>
   );
 };
