@@ -114,6 +114,7 @@ const AdminDashboard = () => {
 
   return (
     <div>
+      <h3>Rented Car Data Visualization</h3>
       <p>Month</p>
       <Form.Select
         onChange={changeMonth}
@@ -127,7 +128,7 @@ const AdminDashboard = () => {
           <option value={opt.value}>{opt.label}</option>
         ))}
       </Form.Select>
-      <Bar
+      <Bar className="bar-container"
         data={{
           labels: labels.map((date) => new Date(date).getDate()), // Ambil tanggal dari setiap timestamp
           datasets: [
@@ -144,18 +145,29 @@ const AdminDashboard = () => {
           responsive: true,
           scales: {
             x: {
+              display: true, // Tampilkan sumbu x
+              title: {
+                display: true,
+                text: "Tanggal", // Label untuk sumbu x
+              },
               ticks: {
                 stepSize: 1, // Jarak antara setiap label
                 beginAtZero: true, // Mulai label dari 0
+              },
+            },
+            y: {
+              display: true, // Tampilkan sumbu y
+              title: {
+                display: true,
+                text: "Jumlah Order", // Label untuk sumbu y
               },
             },
           },
         }}
       />
 
-      <p>
-        <b>Dashboard</b>
-      </p>
+      <h3>Dashboard</h3>
+      <p>List Orders</p>
       <Table striped bordered hover>
         <thead>
           <tr>
