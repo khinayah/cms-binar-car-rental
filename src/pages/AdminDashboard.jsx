@@ -7,9 +7,9 @@ import Chart from "chart.js/auto";
 import { Form } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { ArrowUp } from "react-bootstrap-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
-import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+// import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import "../assets/css/AdminDashboard.css";
 
 const AdminDashboard = () => {
