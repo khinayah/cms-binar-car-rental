@@ -1,0 +1,8 @@
+.select-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.select-parent {
+    margin: 10px;
+}

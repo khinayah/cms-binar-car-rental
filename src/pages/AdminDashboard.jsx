@@ -5,7 +5,10 @@ import { Bar } from "react-chartjs-2";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 import { Form } from "react-bootstrap";
-import "bootstrap-icons/font/bootstrap-icons.css"; // Import Bootstrap Icons CSS
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { Arrow90degUp } from "react-bootstrap-icons";
+import "../assets/css/AdminDashboard.css"
+
 
 const AdminDashboard = () => {
   const [data, setData] = useState([]);
@@ -122,6 +125,7 @@ const AdminDashboard = () => {
 
   return (
     <div>
+      <p>Month</p>
       <Form.Select
         onChange={changeMonth}
         aria-label="Default select example"
@@ -149,18 +153,13 @@ const AdminDashboard = () => {
         }}
         options={{ responsive: true }}
       />
+      <p><b>Dashboard</b></p>
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>No</th>
-            <th onClick={() => handleSort("UserEmail")}>
-              User Email{" "}
-              {sortColumn === "UserEmail" && (
-                <i
-                  className={`bi bi-arrow-${sortDirection}`}
-                  style={{ marginLeft: "0.25rem" }}
-                ></i>
-              )}
+            <th>
+              User Email <Arrow90degUp/>
             </th>
             <th>Car</th>
             <th>Start Rent</th>
@@ -183,7 +182,9 @@ const AdminDashboard = () => {
           ))}
         </tbody>
       </Table>
-      <div>
+      <div className="select-container">
+      <div className="select-parent">
+        <h6>Limit</h6>
         <select name="" id="" onChange={changePageSize}>
           <option value="10">10</option>
           <option value="20">20</option>
@@ -192,7 +193,8 @@ const AdminDashboard = () => {
           <option value="50">50</option>
         </select>
       </div>
-      <div>
+      <div className="select-parent">
+        <h6>Jump to page</h6>
         <select name="" id="" onChange={changePage}>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -200,6 +202,7 @@ const AdminDashboard = () => {
           <option value="4">4</option>
           <option value="5">5</option>
         </select>
+      </div>
       </div>
     </div>
   );
