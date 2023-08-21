@@ -57,6 +57,7 @@ const AdminAddCar = () => {
 
     const handleChangePhoto = (e) => {
         setPhoto(e.target.files[0])
+        console.log(photo)
     }
 
     const handleSubmit = (e) => {
