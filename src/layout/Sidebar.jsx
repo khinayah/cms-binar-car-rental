@@ -42,13 +42,13 @@ const SideBar = () => {
       <div className="cms-logo">
       </div>
       <div className="text-white-sidebar">
-      {location.pathname === '/dashboard' && (
+      {(location.pathname === '/dashboard'|| location.pathname === '/') && (
           <div>
             <p className="title-white-sidebar">DASHBOARD</p>
             <p className="desc-white-sidebar">Dashboard</p>
           </div>
         )}
-        {location.pathname === '/list-cars' && (
+        {(location.pathname === '/list-cars'|| location.pathname === '/list-cars/add-car' || location.pathname.includes('/list-cars/edit-car/')) && (
           <div>
             <p className="title-white-sidebar">CARS</p>
             <p className="desc-white-sidebar">List Car</p>

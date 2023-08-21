@@ -20,10 +20,6 @@ const AdminEditCar = () => {
         price: 0,
         photo: null
     })
-    const [name, setName] = useState('')
-    const [price, setPrice] = useState('')
-    const [category, setCategory] = useState('')
-    const [photo, setPhoto] = useState(null)
     const {id} = useParams()
 
     const config = {
@@ -52,39 +48,36 @@ const AdminEditCar = () => {
     }, [id])
 
 
-    const handleChangeName = (e) => {
-        setName(e.target.value)
-    }
-
-    const handleChangePrice = (e) => {
-        setPrice(e.target.value)
-    }
-
-    const handleChangeCategory = (e) => {
-        setCategory(e.target.value)
-    }
-
-    const handleChangePhoto = (e) => {
-        setPhoto(e.target.files[0])
-    }
+    const handleChange = (e) => {
+      const { name, value, files } = e.target
+      if (name === 'photo') {
+        setData(prevData => ({
+          ...prevData,
+          photo: files[0]
+        }))
+      } else {
+        setData(prevData => ({
+          ...prevData,
+          [name]: value
+        }))
+      }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
         const formData = new FormData()
-        formData.append('name', name)
-        formData.append('category', category)
-        formData.append('price', parseInt(price))
+        formData.append('name', data.name)
+        formData.append('category', data.category)
+        formData.append('price', parseInt(data.price))
         formData.append('status', false)
-        formData.append('image', photo)
+        formData.append('image', data.photo)
 
 
         axios.put(`https://api-car-rental.binaracademy.org/admin/car/${id}`, formData, config)
         .then(res => {
-            let car = data.find((item)=> item.id === currentId)
-                car.name = data.name
-                setData([...data])
-                console.log(res)
+          console.log(res)
+          navigate('/list-cars')
         })
         .catch(err => console.log(err))
     }
@@ -100,20 +93,20 @@ const AdminEditCar = () => {
                 <Form.Label for="namaMobil" className='label-input-form d-flex align-items-center mb-0'>
                   Nama/Tipe Mobil<sup className='sup-star'>*</sup>
                 </Form.Label>
-                <input id="namaMobil" name='name' value={data.name} onChange={handleChangeName} className="input-field-form" placeholder="Input Nama/Tipe Mobil" type="text"/>
+                <input id="namaMobil" name='name' value={data.name} onChange={handleChange} className="input-field-form" placeholder="Input Nama/Tipe Mobil" type="text"/>
               </Form.Group>
               <Form.Group className="form-group-input d-flex">
                 <Form.Label for="hargaMobil" className='label-input-form d-flex align-items-center mb-0'>
                   Harga<sup className='sup-star'>*</sup>
                 </Form.Label>
-                <input id="hargaMobil" name="price" value={data.price} onChange={handleChangePrice} className="input-field-form" placeholder="Input Harga Sewa Mobil" type="number"/>
+                <input id="hargaMobil" name="price" value={data.price} onChange={handleChange} className="input-field-form" placeholder="Input Harga Sewa Mobil" type="number"/>
               </Form.Group>
               <Form.Group className="form-group-input d-flex">
                 <Form.Label for="fotoMobil" className='label-input-form d-flex align-items-center mb-0'>
                   Foto<sup className='sup-star'>*</sup>
                 </Form.Label>
                 <div>
-                  <input id="fotoMobil" name="Foto" onChange={handleChangePhoto} className="input-field-form" placeholder="Upload Foto Mobil" type="file"/>
+                  <input id="fotoMobil" name="photo" onChange={handleChange} className="input-field-form" placeholder="Upload Foto Mobil" type="file"/>
                   <Form.Text className='form-text-info mb-0' tag="p">
                     File size max. 2MB
                   </Form.Text>
@@ -124,7 +117,7 @@ const AdminEditCar = () => {
                   Kategori<sup className='sup-star'>*</sup>
                 </Form.Label>
                 <div className='container-selectbox'>
-                  <Form.Select id="kategoriMobil" onChange={handleChangeCategory} value={data.category} name="Kapasitas" className="input-field-form select">
+                  <Form.Select id="kategoriMobil" onChange={handleChange} value={data.category} name="Kapasitas" className="input-field-form select">
                   <option>Pilih Kategori Mobil</option>
                   <option value="small">2 - 4 Orang</option>
                   <option value="medium">4 - 6 Orang</option>
