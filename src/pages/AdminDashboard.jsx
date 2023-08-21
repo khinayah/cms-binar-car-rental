@@ -2,22 +2,38 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import { Bar } from "react-chartjs-2";
-import {CategoryScale} from 'chart.js'; 
-import Chart from 'chart.js/auto';
+import { CategoryScale } from "chart.js";
+import Chart from "chart.js/auto";
 import { Form } from "react-bootstrap";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { ArrowUp } from "react-bootstrap-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import "../assets/css/AdminDashboard.css";
 
 const AdminDashboard = () => {
   const [data, setData] = useState([]);
   const [chart, setChart] = useState([]);
   const [chartData, setChartData] = useState({});
   const [selectedMonth, setSelectedMonth] = useState("2023-07");
+  const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState("car%3Adesc");
   const [err, setErr] = useState("");
-
 
   useEffect(() => {
     getData();
-    getChart();
+    getChart;
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [sort, page, pageSize]);
+
+  useEffect(() => {
+    getChart();
+  }, [selectedMonth]);
 
   const monthsAndYears = [
     { value: "2023-01", label: "Januari - 2023" },
@@ -33,12 +49,6 @@ const AdminDashboard = () => {
     { value: "2023-11", label: "November - 2023" },
     { value: "2023-12", label: "Desember - 2023" },
   ];
-
-  const changeMonth = (e) => {
-    setSelectedMonth(e.target.value);
-    console.log("selectedMonth", selectedMonth);
-    getChart(selectedMonth);
-  };
 
   const getChart = () => {
     if (selectedMonth) {
@@ -60,31 +70,52 @@ const AdminDashboard = () => {
     }
   };
 
+  const changeMonth = (e) => {
+    setSelectedMonth(e.target.value);
+    console.log("selectedMonth", selectedMonth);
+    // getChart(selectedMonth);
+  };
+
+  const changePageSize = (e) => {
+    setPageSize(e.target.value);
+  };
+
+  const changePage = (e) => {
+    setPage(e.target.value);
+  };
+
+  const handleSort = (type) => {
+    setSort(type);
+  };
+
+  // Membangun data untuk grafik
+  console.log("chart", chart);
+  let tableApi = `https://api-car-rental.binaracademy.org/admin/v2/order?sort=${sort}&page=${page}&pageSize=${pageSize}`;
 
   const getData = async () => {
+    console.log("sort", sort);
     try {
-      const res = await axios.get(
-        `https://api-car-rental.binaracademy.org/admin/v2/order?sort=created_at%3Adesc&page=1&pageSize=10`,
-        {
-          headers: {
-            access_token: localStorage.getItem("admin_token"),
-          },
-        }
-      );
+      const res = await axios.get(tableApi, {
+        headers: {
+          access_token: localStorage.getItem("admin_token"),
+        },
+      });
       setData(res.data.orders);
     } catch (err) {
       setErr(err.message);
     }
   };
 
-//   console.log("chart", chart);
+  //   console.log("chart", chart);
   const labels = chart.map((item) => item.day);
   const barData = chart.map((item) => item.orderCount);
 
-    // console.log("data", data);
+  // console.log("data", data);
 
   return (
     <div>
+      <h3>Rented Car Data Visualization</h3>
+      <p>Month</p>
       <Form.Select
         onChange={changeMonth}
         aria-label="Default select example"
@@ -97,9 +128,9 @@ const AdminDashboard = () => {
           <option value={opt.value}>{opt.label}</option>
         ))}
       </Form.Select>
-      <Bar
+      <Bar className="bar-container"
         data={{
-          labels: labels,
+          labels: labels.map((date) => new Date(date).getDate()), // Ambil tanggal dari setiap timestamp
           datasets: [
             {
               label: "Data",
@@ -110,18 +141,167 @@ const AdminDashboard = () => {
             },
           ],
         }}
-        options={{ responsive: true }}
+        options={{
+          responsive: true,
+          scales: {
+            x: {
+              display: true, // Tampilkan sumbu x
+              title: {
+                display: true,
+                text: "Tanggal", // Label untuk sumbu x
+              },
+              ticks: {
+                stepSize: 1, // Jarak antara setiap label
+                beginAtZero: true, // Mulai label dari 0
+              },
+            },
+            y: {
+              display: true, // Tampilkan sumbu y
+              title: {
+                display: true,
+                text: "Jumlah Order", // Label untuk sumbu y
+              },
+            },
+          },
+        }}
       />
+
+      <h3>Dashboard</h3>
+      <p>List Orders</p>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>No</th>
-            <th>User Email</th>
-            <th>Car</th>
-            <th>Start Rent</th>
-            <th>Finish Rent</th>
-            <th>Price</th>
-            <th>Category</th>
+            <th>
+              <div className="head-container">
+                <div className="head-text">No</div>
+              </div>
+            </th>
+            <th>
+              <div className="head-container">
+                <div className="head-text">User Email</div>
+                <div className="head-icon">
+                  <div onClick={() => handleSort("user_email%3Aasc")}>
+                    <img
+                      src="/src/assets/img/ArrowUp.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                  <div onClick={() => handleSort("user_email%3Adesc")}>
+                    <img
+                      src="/src/assets/img/ArrowDown.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div className="head-container">
+                <div className="head-text">Car</div>
+                <div className="head-icon">
+                  <div onClick={() => handleSort("car_name%3Aasc")}>
+                    <img
+                      src="/src/assets/img/ArrowUp.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                  <div onClick={() => handleSort("car_name%3Adesc")}>
+                    <img
+                      src="/src/assets/img/ArrowDown.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div className="head-container">
+                <div className="head-text">Start Rent</div>
+                <div className="head-icon">
+                  <div onClick={() => handleSort("start_rent_at%3Aasc")}>
+                    <img
+                      src="/src/assets/img/ArrowUp.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                  <div onClick={() => handleSort("start_rent_at%3Adesc")}>
+                    <img
+                      src="/src/assets/img/ArrowDown.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div className="head-container">
+                <div className="head-text">Finish Rent</div>
+                <div className="head-icon">
+                  <div onClick={() => handleSort("finish_rent_at%3Aasc")}>
+                    <img
+                      src="/src/assets/img/ArrowUp.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                  <div onClick={() => handleSort("finish_rent_at%3Adesc")}>
+                    <img
+                      src="/src/assets/img/ArrowDown.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div className="head-container">
+                <div className="head-text">Price</div>
+                <div className="head-icon">
+                  <div onClick={() => handleSort("price%3Aasc")}>
+                    <img
+                      src="/src/assets/img/ArrowUp.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                  <div onClick={() => handleSort("price%3Adesc")}>
+                    <img
+                      src="/src/assets/img/ArrowDown.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div className="head-container">
+                <div className="head-text">Category</div>
+                <div className="head-icon">
+                  <div onClick={() => handleSort("category%3Aasc")}>
+                    <img
+                      src="/src/assets/img/ArrowUp.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                  <div onClick={() => handleSort("category%3Adesc")}>
+                    <img
+                      src="/src/assets/img/ArrowDown.svg"
+                      className="img-icon"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -138,6 +318,28 @@ const AdminDashboard = () => {
           ))}
         </tbody>
       </Table>
+      <div className="select-container">
+        <div className="select-parent">
+          <h6>Limit</h6>
+          <select name="" id="" onChange={changePageSize}>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+        <div className="select-parent">
+          <h6>Jump to page</h6>
+          <select name="" id="" onChange={changePage}>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      </div>
     </div>
   );
 };

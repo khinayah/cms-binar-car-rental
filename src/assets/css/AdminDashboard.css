@@ -1,0 +1,45 @@
+.bar-container {
+    margin-bottom: 5%;
+}
+
+.head-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.head-text {
+    margin: auto 2%;
+    width: 50%;
+}
+
+.head-icon {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.img-icon {
+    width: auto;
+    height: 0.5rem;
+    cursor: pointer;
+}
+
+/* .icon-parent {
+    height: 70%;
+}
+
+.icon {
+    height: 80%;
+
+} */
+
+.select-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.select-parent {
+    margin: 10px;
+}
