@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   const [selectedMonth, setSelectedMonth] = useState("2023-07");
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
-  const [sort, setSort] = useState("car%3Adesc")
+  const [sort, setSort] = useState("car%3Adesc");
   const [err, setErr] = useState("");
 
   useEffect(() => {
@@ -85,15 +85,15 @@ const AdminDashboard = () => {
   };
 
   const handleSort = (type) => {
-    setSort(type)
-  }
+    setSort(type);
+  };
 
   // Membangun data untuk grafik
   console.log("chart", chart);
   let tableApi = `https://api-car-rental.binaracademy.org/admin/v2/order?sort=${sort}&page=${page}&pageSize=${pageSize}`;
 
   const getData = async () => {
-    console.log("sort" ,sort)
+    console.log("sort", sort);
     try {
       const res = await axios.get(tableApi, {
         headers: {
@@ -129,7 +129,7 @@ const AdminDashboard = () => {
       </Form.Select>
       <Bar
         data={{
-          labels: labels,
+          labels: labels.map((date) => new Date(date).getDate()), // Ambil tanggal dari setiap timestamp
           datasets: [
             {
               label: "Data",
@@ -140,8 +140,19 @@ const AdminDashboard = () => {
             },
           ],
         }}
-        options={{ responsive: true }}
+        options={{
+          responsive: true,
+          scales: {
+            x: {
+              ticks: {
+                stepSize: 1, // Jarak antara setiap label
+                beginAtZero: true, // Mulai label dari 0
+              },
+            },
+          },
+        }}
       />
+
       <p>
         <b>Dashboard</b>
       </p>
@@ -164,7 +175,7 @@ const AdminDashboard = () => {
                       alt=""
                     />
                   </div>
-                  <div  onClick={() => handleSort("user_email%3Adesc")}>
+                  <div onClick={() => handleSort("user_email%3Adesc")}>
                     <img
                       src="/src/assets/img/ArrowDown.svg"
                       className="img-icon"
