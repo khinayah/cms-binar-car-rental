@@ -30,7 +30,6 @@ const AdminLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(onLogin(form, navigate))
-    // console.log("test", token, loading, error)
   }
 
   return (
