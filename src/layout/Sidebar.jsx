@@ -15,7 +15,7 @@ const SideBar = () => {
 
   return (
     <aside className={`sidebar ${minimized ? 'minimized' : ''}`}>
-      <div className="sidebar-blue">
+      <div className="blue-sidebar">
         <Navbar>
           <div className='my-2'>
             <div className="d-flex">
